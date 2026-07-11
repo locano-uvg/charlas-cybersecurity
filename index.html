@@ -1445,7 +1445,18 @@
          desde la ubicación actual de la presentación.
          Sobreescribe manualmente si es necesario.
       ═══════════════════════════════════════════════ */
-      var _base = window.location.href.replace(/\/[^\/]*$/, "");
+      // Derivar base ignorando hash (#/N de Reveal.js) y query string.
+      // 1) Quita el archivo final (ej. index.html) si está presente.
+      // 2) Quita la barra final para evitar dobles slashes.
+      var _path = window.location.pathname
+        .replace(/\/[^\/]*\.[^\/]*$/, "")
+        .replace(/\/$/, "");
+      var _base = window.location.origin + _path;
+      if (window.location.protocol === "file:") {
+        console.warn(
+          "[QR] Presentación abierta con file://, los QRs no serán escaneables desde un celular. Sirve por HTTP."
+        );
+      }
       var QR_URL_SAFE = _base + "/qr-bienvenida/";
       var QR_URL_PHISH = _base + "/qr-registro/";
       var STATS_URL =

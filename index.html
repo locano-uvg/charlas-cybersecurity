@@ -305,8 +305,14 @@
 
       /* ── Count-up stat ── */
       @keyframes statFadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
       .stat-card.counted .stat-num {
         animation: statFadeIn 0.45s ease both;
@@ -314,8 +320,14 @@
 
       /* ── QR card pulse (slide qr-activity) ── */
       @keyframes qrPulse {
-        0%, 100% { border-color: rgba(255, 255, 255, 0.4); }
-        50%       { border-color: rgba(255, 255, 255, 0.85); box-shadow: 0 0 12px rgba(255,255,255,0.15); }
+        0%,
+        100% {
+          border-color: rgba(255, 255, 255, 0.4);
+        }
+        50% {
+          border-color: rgba(255, 255, 255, 0.85);
+          box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+        }
       }
       .qr-activity-active .qr-card {
         animation: qrPulse 2.4s ease-in-out infinite;
@@ -326,12 +338,24 @@
 
       /* ── Portada: entrada de texto ── */
       @keyframes coverFadeUp {
-        from { opacity: 0; transform: translateY(18px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
-      .cover-anim-1 { animation: coverFadeUp 0.65s ease 0.1s both; }
-      .cover-anim-2 { animation: coverFadeUp 0.65s ease 0.4s both; }
-      .cover-anim-3 { animation: coverFadeUp 0.65s ease 0.7s both; }
+      .cover-anim-1 {
+        animation: coverFadeUp 0.65s ease 0.1s both;
+      }
+      .cover-anim-2 {
+        animation: coverFadeUp 0.65s ease 0.4s both;
+      }
+      .cover-anim-3 {
+        animation: coverFadeUp 0.65s ease 0.7s both;
+      }
     </style>
   </head>
   <body>
@@ -343,11 +367,16 @@
         ═══════════════════════════════════════════════ -->
         <section data-state="cover">
           <br />
-          <p class="bloque-tag cover-anim-1">CIO for a Day · UVG · julio 2026</p>
+          <p class="bloque-tag cover-anim-1">
+            CIO for a Day · UVG · julio 2026
+          </p>
           <h2 class="cover-anim-2" style="line-height: 1.2">
             Ciberseguridad,<br />Ética y el Rol del CIO
           </h2>
-          <p class="cover-anim-3" style="font-size: 0.6em; margin-top: 1em; color: #fff">
+          <p
+            class="cover-anim-3"
+            style="font-size: 0.6em; margin-top: 1em; color: #fff"
+          >
             Ing. Ludwing Cano<br />Sábado 11 de julio de 2026
           </p>
         </section>
@@ -1429,10 +1458,10 @@
          Sobreescribe manualmente si es necesario.
       ═══════════════════════════════════════════════ */
       var _base = window.location.href.replace(/\/[^\/]*$/, "");
-      var QR_URL_SAFE  = _base + "/qr-bienvenida/";
+      var QR_URL_SAFE = _base + "/qr-bienvenida/";
       var QR_URL_PHISH = _base + "/qr-registro/";
       var STATS_URL =
-        "https://script.google.com/macros/s/AKfycby5lZMFkpe-9e0WaePrs8EJO-jW1TdNhwlhV5syPWnXU3WyfWpwmGhupc00KZa2ky46/exec";
+        "https://script.google.com/macros/s/AKfycbyXHLkGOutrHsLoxzrTlpivFGr0vDGoN-NvsorQFFSkWE8A0GE0PK9sCUo4dEjwud4O/exec";
 
       /* QR CODES — se renderizan al cargar la presentación */
       Reveal.on("ready", function () {
@@ -1473,12 +1502,7 @@
       });
 
       function fetchQrStats() {
-        if (
-          STATS_URL.indexOf(
-            "TU_APPS_SCRIPT_ID",
-          ) !== -1
-        )
-          return;
+        if (STATS_URL.indexOf("TU_APPS_SCRIPT_ID") !== -1) return;
         var note = document.getElementById("stats-note");
         fetch(STATS_URL)
           .then(function (r) {
@@ -1561,12 +1585,17 @@
         function stopParticles() {
           running = false;
           canvas.classList.remove("active");
-          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
           ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
         Reveal.on("slidechanged", function (event) {
-          var state = event.currentSlide ? (event.currentSlide.dataset.state || "") : "";
+          var state = event.currentSlide
+            ? event.currentSlide.dataset.state || ""
+            : "";
           if (state === "cover") {
             startParticles();
           } else {
@@ -1575,7 +1604,9 @@
         });
 
         Reveal.on("ready", function (event) {
-          var state = event.currentSlide ? (event.currentSlide.dataset.state || "") : "";
+          var state = event.currentSlide
+            ? event.currentSlide.dataset.state || ""
+            : "";
           if (state === "cover") startParticles();
         });
       })();
@@ -1601,7 +1632,9 @@
         }
 
         Reveal.on("slidechanged", function (event) {
-          var state = event.currentSlide ? (event.currentSlide.dataset.state || "") : "";
+          var state = event.currentSlide
+            ? event.currentSlide.dataset.state || ""
+            : "";
           if (state === "stats-slide" && !alreadyCounted) {
             alreadyCounted = true;
             var cards = document.querySelectorAll(".stat-card");
@@ -1620,7 +1653,9 @@
          QR CARDS PULSE — al entrar al slide qr-activity
       ══════════════════════════════════════════════════ */
       Reveal.on("slidechanged", function (event) {
-        var state = event.currentSlide ? (event.currentSlide.dataset.state || "") : "";
+        var state = event.currentSlide
+          ? event.currentSlide.dataset.state || ""
+          : "";
         var qrGrid = document.querySelector(".qr-grid");
         if (!qrGrid) return;
         if (state === "qr-activity") {

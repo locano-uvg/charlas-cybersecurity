@@ -13,12 +13,69 @@ Al inicio de la charla se muestran **dos QRs** en la misma slide:
 | QR | Lo que parece | Lo que es |
 |---|---|---|
 | **Bienvenida** | Agenda de la charla | Landing benigna — registra solo una visita |
-| **Registro de asistencia** | Formulario oficial UVG para certificado | Formulario falso — captura datos plausibles sin pedir contraseña |
+| **Registro de asistencia** | Formulario oficial UVG para certificado | QR malicioso — captura datos en 2 niveles (ver abajo) |
 
 En el **Bloque 2**, antes de la sección de phishing, se revelan:
 1. Cuántos escanearon cada QR (contador en vivo desde Google Sheets).
-2. Qué datos se capturaron sin pedir contraseña y por qué eso ya es suficiente para atacar.
+2. Qué datos se capturaron **sin que la víctima hiciera nada** (Nivel 1) y qué se obtiene con un solo click engañoso (Nivel 2).
 3. La lección: **el phishing real nunca pide contraseña de frente**.
+
+---
+
+## Nivel 1 — Captura pasiva (0 interacción del usuario)
+
+**Solo con escanear el QR y que la página cargue**, se captura y envía al Sheet:
+
+| Dato | Cómo se obtiene |
+|---|---|
+| Dirección IP pública | `ipwho.is` (fetch silencioso al cargar) |
+| Ciudad / País / ISP | Geolocalización por IP (ipwho.is) |
+| Lat/Lng aproximada | Geolocalización por IP (~ciudad) |
+| Tipo de dispositivo | `navigator.userAgent` |
+| Sistema operativo | `navigator.platform` + User-Agent |
+| Navegador | User-Agent |
+| Idioma del teléfono | `navigator.language` |
+| Resolución de pantalla | `screen.width/height` |
+| Nivel de batería | `navigator.getBattery()` |
+| Tipo de red (WiFi/4G/5G) | `navigator.connection.effectiveType` |
+| Velocidad de red | `connection.downlink` |
+| Núcleos de CPU | `navigator.hardwareConcurrency` |
+| RAM del dispositivo | `navigator.deviceMemory` |
+| Zona horaria | `Intl.DateTimeFormat` |
+| Fingerprint del navegador | Canvas fingerprint (hash de 8 chars) |
+| Desde dónde llegaron | `document.referrer` |
+
+Todo esto llega al Sheet con `type = stealth_capture` y un `sessionId` único por dispositivo.
+
+## Nivel 2 — Un click engañoso → GPS exacto
+
+En la página aparece un banner con diseño UVG:
+
+> 📍 **Confirma tu asistencia desde el aula**
+> Activamos tu ubicación solo durante el evento para validar tu certificado.
+> `[Confirmar]`
+
+Si el usuario hace click en "Confirmar", el navegador lanza su prompt nativo de geolocalización. Si acepta:
+- Se capturan coordenadas GPS con precisión de **metros** (no ciudad, sino el edificio exacto).
+- Llega al Sheet con `type = stealth_geo`, `lat`, `lng`, `accuracy`.
+- El banner cambia a "✅ Asistencia confirmada" para no levantar sospechas.
+
+> **Lección clave**: No se puede obtener GPS exacto sin consentimiento del usuario — pero con un pretexto plausible, la mayoría da click en "Permitir" sin leer.
+
+## Datos disponibles para el reveal
+
+El `doGet` del Apps Script ahora devuelve 4 contadores:
+
+```json
+{
+  "safeHits":        12,
+  "phishSubmits":    31,
+  "stealthCaptures": 31,
+  "geoGranted":      18
+}
+```
+
+En el reveal puedes mostrar: *"De 31 personas que escanearon el QR de registro: 31 me dieron su IP, ciudad y dispositivo sin hacer nada. 18 me dieron su ubicación GPS exacta con un solo click."*
 
 Opcional: slide de **Have I Been Pwned** después del Caso 4 (contraseñas), para una demo en vivo de brechas reales.
 
@@ -134,8 +191,11 @@ Si quieres tener un respaldo visual por si no hay wifi el día del evento:
 
 ## Después de la charla
 
-- Borrar filas de datos del Google Sheet (menú **Datos → Borrar rango**).
-- Optionally desactivar el Web App deployment en Apps Script.
+> ⚠️ **OBLIGATORIO** — Con el Nivel 1 y 2 activos, el Sheet ahora contiene IPs reales, coordenadas GPS y fingerprints de personas identificables. Esto ya es **dato personal** bajo cualquier marco de privacidad. Bórralo el mismo día del evento.
+
+1. **Borrar todos los datos** del Google Sheet: selecciona todas las filas de datos (no el encabezado) → clic derecho → **Eliminar filas**.
+2. **Desactivar el Web App**: en Apps Script → Deployments → el deployment activo → **Archive** (o simplemente elimínalo).
+3. Si usaste GitHub Pages o Cloudflare Pages, considera poner las páginas offline o reemplazarlas con una página en blanco hasta el próximo evento.
 
 ---
 
@@ -148,4 +208,4 @@ Los QRs en la slide sí se renderizan (están generados al cargar la página). L
 El reveal funciona igualmente. Los contadores mostrarán 0 y puedes usarlo como punto de discusión ("nadie cayó — ¿por qué? ¿qué los detuvo?").
 
 **¿Los datos son seguros?**
-Solo se guardan en un Sheet de tu propia cuenta de Google. No se captura ninguna contraseña. El README de apps-script indica borrarlos tras el evento.
+Solo se guardan en un Sheet de tu propia cuenta de Google. No se captura ninguna contraseña. Sin embargo, con el Nivel 1 y 2 activos se capturan IPs, coordenadas GPS y fingerprints — datos personales reales. **Borra el Sheet inmediatamente después de la charla** (ver sección "Después de la charla"). El propósito es exclusivamente educativo y acotado al evento.

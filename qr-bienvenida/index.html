@@ -144,7 +144,9 @@
         opacity: 0;
         animation: fadeInUp 0.55s ease both;
         backdrop-filter: blur(6px);
-        transition: border-color 0.2s, background 0.2s;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
       }
 
       .card:nth-of-type(1) {
@@ -177,7 +179,9 @@
         font-size: 0.87rem;
         line-height: 1.4;
         border-radius: 4px;
-        transition: background 0.15s, padding-left 0.15s;
+        transition:
+          background 0.15s,
+          padding-left 0.15s;
       }
 
       .agenda-item:last-child {
@@ -261,28 +265,55 @@
 
       /* ── Keyframes ── */
       @keyframes fadeIn {
-        from { opacity: 0; }
-        to   { opacity: 1; }
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
 
       @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(22px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-14px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(-14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       @keyframes underlineGrow {
-        from { width: 0; }
-        to   { width: 100%; }
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
       }
 
       @keyframes pulseDot {
-        0%, 100% { transform: scale(1);   box-shadow: 0 0 0 0   rgba(77, 255, 155, 0.6); }
-        50%       { transform: scale(1.3); box-shadow: 0 0 0 5px rgba(77, 255, 155, 0); }
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(77, 255, 155, 0.6);
+        }
+        50% {
+          transform: scale(1.3);
+          box-shadow: 0 0 0 5px rgba(77, 255, 155, 0);
+        }
       }
     </style>
   </head>
@@ -292,9 +323,13 @@
     <div class="content">
       <div class="header">
         <p class="tag">CIO for a Day · UVG · julio 2026</p>
-        <h1>Ciberseguridad,<br /><span class="accent">Ética</span> y el Rol del CIO</h1>
+        <h1>
+          Ciberseguridad,<br /><span class="accent">Ética</span> y el Rol del
+          CIO
+        </h1>
         <p class="sub">
-          Bienvenidos. Hoy descubrirás cómo <em>un CIO protege</em> lo que más importa.
+          Bienvenidos. Hoy descubrirás cómo <em>un CIO protege</em> lo que más
+          importa.
         </p>
       </div>
 
@@ -307,15 +342,22 @@
         <h2>Agenda del día</h2>
         <div class="agenda-item">
           <span class="time">Bloque 0</span>
-          <span class="item-body">Gancho inicial &amp; actividad de apertura</span>
+          <span class="item-body"
+            >Gancho inicial &amp; actividad de apertura</span
+          >
         </div>
         <div class="agenda-item">
           <span class="time">Bloque 1</span>
-          <span class="item-body">¿Qué hace realmente un CIO? — responsabilidades éticas</span>
+          <span class="item-body"
+            >¿Qué hace realmente un CIO? — responsabilidades éticas</span
+          >
         </div>
         <div class="agenda-item">
           <span class="time">Bloque 2</span>
-          <span class="item-body">Ciberseguridad: lo que ya te afecta — phishing, deepfakes, contraseñas</span>
+          <span class="item-body"
+            >Ciberseguridad: lo que ya te afecta — phishing, deepfakes,
+            contraseñas</span
+          >
         </div>
         <div class="agenda-item">
           <span class="time">Pausa</span>
@@ -323,7 +365,9 @@
         </div>
         <div class="agenda-item">
           <span class="time">Bloque 3</span>
-          <span class="item-body">Tu proyecto en el mundo real — checklist + trabajo en equipo</span>
+          <span class="item-body"
+            >Tu proyecto en el mundo real — checklist + trabajo en equipo</span
+          >
         </div>
         <div class="agenda-item">
           <span class="time">Cierre</span>
@@ -403,7 +447,7 @@
 
       /* ── Ping silencioso al Apps Script para contar visitas ── */
       var STATS_URL =
-        "https://script.google.com/macros/s/AKfycby5lZMFkpe-9e0WaePrs8EJO-jW1TdNhwlhV5syPWnXU3WyfWpwmGhupc00KZa2ky46/exec";
+        "https://script.google.com/macros/s/AKfycbyXHLkGOutrHsLoxzrTlpivFGr0vDGoN-NvsorQFFSkWE8A0GE0PK9sCUo4dEjwud4O/exec";
       if (STATS_URL.indexOf("TU_APPS_SCRIPT") === -1) {
         fetch(STATS_URL, {
           method: "POST",

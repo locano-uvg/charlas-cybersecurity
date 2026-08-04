@@ -1,0 +1,1195 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Especialidad en Ciberseguridad · Ingeniería en Informática y Sistemas ·
+      UVG
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="reveal/reveal.min.css" />
+    <link rel="stylesheet" href="reveal/moon.min.css" />
+    <style>
+      .reveal-viewport {
+        background-color: #04602f;
+      }
+      .reveal {
+        color: #fff;
+      }
+      .footer {
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        height: 100px;
+        background-color: #3b3a3c;
+        width: 100%;
+      }
+      .bloque-tag {
+        font-size: 0.5em;
+        letter-spacing: 0.05em;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        padding: 2px 12px;
+        display: inline-block;
+        margin-bottom: 0.4em;
+      }
+      /* Quiz */
+      .quiz-wrap {
+        max-width: 680px;
+        margin: 0 auto;
+      }
+      .quiz-question {
+        font-size: 0.75em;
+        margin-bottom: 0.8em;
+      }
+      .quiz-options {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+      }
+      .quiz-btn {
+        background: #0a3d1f;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #fff;
+        padding: 0.5em 1em;
+        font-size: 0.6em;
+        cursor: pointer;
+        text-align: left;
+      }
+      .quiz-btn:hover {
+        background: #0f5228;
+      }
+      .quiz-btn.correct {
+        border-color: #fff;
+        background: #0f5228;
+      }
+      .quiz-btn.wrong {
+        border-color: rgba(255, 255, 255, 0.3);
+        opacity: 0.5;
+      }
+      .quiz-feedback {
+        margin-top: 0.6em;
+        font-size: 0.6em;
+        min-height: 1.4em;
+      }
+      /* Dilema */
+      .dilema-opciones {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8em;
+        margin-top: 0.8em;
+      }
+      .dilema-btn {
+        background: #0a3d1f;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #fff;
+        padding: 0.8em;
+        font-size: 0.55em;
+        cursor: pointer;
+        text-align: left;
+      }
+      .dilema-btn:hover {
+        background: #0f5228;
+      }
+      .dilema-btn.selected {
+        border-color: #fff;
+        background: #0f5228;
+      }
+      .dilema-feedback {
+        font-size: 0.55em;
+        margin-top: 0.8em;
+        min-height: 1.5em;
+      }
+      /* Checklist */
+      .checklist {
+        list-style: none;
+        padding: 0;
+        margin: 0 auto;
+        max-width: 720px;
+      }
+      .checklist li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7em;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 0.5em 0.3em;
+        font-size: 0.55em;
+        cursor: pointer;
+        line-height: 1.5;
+      }
+      .checklist li.done {
+        opacity: 0.7;
+      }
+      .check-icon {
+        font-family: monospace;
+        flex-shrink: 0;
+        font-size: 1.1em;
+      }
+      .check-prog {
+        margin-top: 0.4em;
+        font-size: 0.6em;
+        color: rgba(255, 255, 255, 0.6);
+        text-align: center;
+      }
+      /* Timer */
+      .timer-display {
+        font-size: 3em;
+        font-weight: bold;
+        color: #fff;
+        letter-spacing: 0.05em;
+        margin: 0.2em 0;
+      }
+      .timer-display.warning {
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .timer-bar-wrap {
+        background: rgba(255, 255, 255, 0.2);
+        height: 6px;
+        margin: 0.4em auto;
+        max-width: 500px;
+        overflow: hidden;
+      }
+      .timer-bar {
+        height: 6px;
+        background: #fff;
+        transform-origin: left;
+      }
+      .timer-controls {
+        display: flex;
+        gap: 0.8em;
+        justify-content: center;
+        margin-top: 0.6em;
+      }
+      .timer-btn {
+        background: #0a3d1f;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #fff;
+        padding: 0.3em 1.2em;
+        font-size: 0.6em;
+        cursor: pointer;
+      }
+      .timer-btn:hover {
+        background: #0f5228;
+      }
+      .timer-task {
+        font-size: 0.55em;
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 600px;
+        margin: 0.6em auto 0;
+        text-align: left;
+      }
+      .timer-task li {
+        margin-bottom: 0.3em;
+      }
+      /* Stat cards */
+      .stat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.7em;
+        max-width: 700px;
+        margin: 0.6em auto 0;
+        font-size: 0.6em;
+      }
+      .stat-card {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 0.7em 0.8em;
+        text-align: left;
+      }
+      .stat-card .stat-num {
+        font-size: 2em;
+        font-weight: bold;
+        display: block;
+        line-height: 1.1;
+      }
+      /* Big standalone stat */
+      .big-stat {
+        margin-top: 0.6em;
+      }
+      .big-stat .big-stat-num {
+        font-size: 2.6em;
+        font-weight: bold;
+        display: block;
+        line-height: 1.1;
+      }
+      /* Cards genéricas (proyectos / roles) */
+      .card-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8em;
+        max-width: 820px;
+        margin: 0.6em auto 0;
+      }
+      .info-card {
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        padding: 0.8em 1em;
+        text-align: left;
+        font-size: 0.5em;
+        line-height: 1.55;
+      }
+      .info-card strong {
+        font-size: 1.15em;
+        display: block;
+        margin-bottom: 0.25em;
+      }
+      /* Responsabilidad / detalle card */
+      .resp-card {
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        padding: 1.2em 1.6em;
+        max-width: 620px;
+        margin: 0.8em auto 0;
+        text-align: left;
+        font-size: 0.68em;
+        line-height: 1.6;
+      }
+
+      /* ── Partículas portada ── */
+      #particles-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+      }
+      #particles-canvas.active {
+        opacity: 1;
+      }
+
+      /* ── Count-up stat ── */
+      @keyframes statFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .stat-card.counted .stat-num {
+        animation: statFadeIn 0.45s ease both;
+      }
+
+      /* ── Portada: entrada de texto ── */
+      @keyframes coverFadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .cover-anim-1 {
+        animation: coverFadeUp 0.65s ease 0.1s both;
+      }
+      .cover-anim-2 {
+        animation: coverFadeUp 0.65s ease 0.4s both;
+      }
+      .cover-anim-3 {
+        animation: coverFadeUp 0.65s ease 0.7s both;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="particles-canvas"></canvas>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ═══════════════════════════════════════════════
+             PORTADA
+        ═══════════════════════════════════════════════ -->
+        <section data-state="cover">
+          <br />
+          <p class="bloque-tag cover-anim-1">
+            Charla informativa · Ingeniería en Informática y Sistemas · UVG
+          </p>
+          <h2 class="cover-anim-2" style="line-height: 1.2">
+            Especialidad en<br />Ciberseguridad
+          </h2>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             BLOQUE 0 — GANCHO
+        ═══════════════════════════════════════════════ -->
+        <section>
+          <section>
+            <h2>Levanten la mano...</h2>
+            <p style="font-size: 0.75em; margin-top: 0.6em">
+              ...si alguna vez les han hackeado, clonado o intentado robar una
+              cuenta.
+            </p>
+          </section>
+
+          <section>
+            <h3>¿Y si les dijera que...</h3>
+            <p style="font-size: 0.85em; margin-top: 0.6em">
+              alguien puede aprender a
+              <strong
+                >encontrar esas vulnerabilidades antes que el atacante</strong
+              >, y que a eso se le puede llamar carrera?
+            </p>
+          </section>
+
+          <section>
+            <p style="font-size: 0.85em">
+              Hoy les vamos a contar de qué se trata la
+              <strong>especialidad en Ciberseguridad</strong> dentro de
+              Ingeniería en Informática y Sistemas.
+            </p>
+            <p style="font-size: 0.7em; margin-top: 0.6em">
+              Qué se estudia, qué proyectos harían y en qué podrían trabajar al
+              terminarla.
+            </p>
+          </section>
+
+          <!-- Estadísticas: grid de tarjetas con count-up -->
+          <section data-state="stats-slide">
+            <h3>¿Sabían que...?</h3>
+            <p
+              style="
+                font-size: 0.48em;
+                color: rgba(255, 255, 255, 0.6);
+                margin-bottom: 0.2em;
+              "
+            >
+              <!-- NOTA presentador: cifras aproximadas y citadas de forma
+              general sobre la industria (ISC2, Verizon DBIR, encuestas del
+              sector). Verificar/actualizar con datos oficiales o de UVG antes
+              de presentar. -->
+              Cifras aproximadas de la industria a nivel global
+            </p>
+            <div class="stat-grid">
+              <div class="stat-card">
+                <span class="stat-num" data-target="82" data-suffix="%">—</span>
+                de las organizaciones considera la ciberseguridad su prioridad
+                #1 de TI
+              </div>
+              <div class="stat-card">
+                <span class="stat-num" data-target="68" data-suffix="%">—</span>
+                de las brechas de datos involucran un factor humano (phishing,
+                error, engaño)
+              </div>
+              <div class="stat-card">
+                <span class="stat-num" data-target="54" data-suffix="%">—</span>
+                de las empresas dice no tener suficiente personal de
+                ciberseguridad
+              </div>
+              <div class="stat-card">
+                <span class="stat-num" data-target="20" data-suffix="%">—</span>
+                de los profesionales de TI tiene formación formal en seguridad
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h3>Y todavía hay más</h3>
+            <div class="big-stat">
+              <span class="big-stat-num">Miles</span>
+              de vacantes de ciberseguridad sin cubrir cada año, a nivel mundial
+            </div>
+            <p style="font-size: 0.6em; margin-top: 0.8em">
+              <!-- TODO: dato UVG — reemplazar por cifra local/regional si se
+              tiene disponible -->
+              Es una de las áreas de la ingeniería con más demanda y menos gente
+              formada para cubrirla.
+            </p>
+          </section>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             BLOQUE 1 — ¿DE QUÉ SE TRATA LA ESPECIALIDAD?
+        ═══════════════════════════════════════════════ -->
+        <section>
+          <section>
+            <h2>¿De qué se trata<br />la especialidad?</h2>
+          </section>
+
+          <section>
+            <p style="font-size: 0.72em; margin-top: 0.5em">
+              Ciberseguridad es la especialidad que se enfoca en
+              <strong>proteger sistemas, redes, aplicaciones y datos</strong>
+              de accesos no autorizados, ataques y filtraciones.
+            </p>
+          </section>
+
+          <section>
+            <img
+              src="./assets/tec1.jpg"
+              alt="Tecnología y datos"
+              style="width: 32%; height: 32%"
+            />
+            <p style="font-size: 0.68em; margin-top: 0.5em">
+              No es solo "saber de computadoras": es entender cómo piensa un
+              atacante para poder defenderse mejor que él.
+            </p>
+          </section>
+
+          <section>
+            <h3>¿Cuándo se cursa?</h3>
+            <p style="font-size: 0.68em; margin-top: 0.5em">
+              <!-- TODO: dato UVG — confirmar año/semestre exacto y
+              prerrequisitos dentro del pensum -->
+              Normalmente se cursa a partir de los últimos años de la carrera,
+              como especialización dentro de Ingeniería en Informática y
+              Sistemas.
+            </p>
+          </section>
+
+          <section>
+            <h3>Áreas que se estudian</h3>
+            <div class="card-grid">
+              <div class="info-card">
+                <strong>Redes y protocolos</strong>
+                Cómo viaja la información y dónde se puede interceptar o
+                proteger.
+              </div>
+              <div class="info-card">
+                <strong>Criptografía</strong>
+                Cómo cifrar datos para que solo quien debe verlos, pueda
+                hacerlo.
+              </div>
+              <div class="info-card">
+                <strong>Ethical hacking / pentesting</strong>
+                Atacar sistemas de forma autorizada para encontrar fallas antes
+                que alguien malicioso.
+              </div>
+              <div class="info-card">
+                <strong>Seguridad de aplicaciones</strong>
+                Construir software que sea seguro desde el diseño, no como
+                parche al final.
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h3>Áreas que se estudian</h3>
+            <div class="card-grid">
+              <div class="info-card">
+                <strong>Forense digital</strong>
+                Investigar un incidente: qué pasó, cómo entraron y qué se
+                llevaron.
+              </div>
+              <div class="info-card">
+                <strong>Gestión de riesgos y respuesta a incidentes</strong>
+                Priorizar qué proteger primero y qué hacer cuando algo ya salió
+                mal.
+              </div>
+            </div>
+          </section>
+
+          <!-- CHECKLIST INTERACTIVA -->
+          <section>
+            <h4>Al terminar la especialidad, vas a saber...</h4>
+            <ul class="checklist" id="checklist">
+              <li onclick="toggleCheck(this)">
+                <span class="check-icon">[ ]</span>
+                <span class="check-text">
+                  <strong>1. Encontrar vulnerabilidades comunes</strong> (tipo
+                  OWASP Top 10) de forma ética y autorizada.
+                </span>
+              </li>
+              <li onclick="toggleCheck(this)">
+                <span class="check-icon">[ ]</span>
+                <span class="check-text">
+                  <strong>2. Diseñar redes y arquitecturas seguras</strong>, no
+                  solo funcionales.
+                </span>
+              </li>
+              <li onclick="toggleCheck(this)">
+                <span class="check-icon">[ ]</span>
+                <span class="check-text">
+                  <strong>3. Usar criptografía</strong> para proteger datos en
+                  tránsito y en reposo.
+                </span>
+              </li>
+              <li onclick="toggleCheck(this)">
+                <span class="check-icon">[ ]</span>
+                <span class="check-text">
+                  <strong>4. Investigar un incidente</strong> y reconstruir qué
+                  pasó, como un detective digital.
+                </span>
+              </li>
+              <li onclick="toggleCheck(this)">
+                <span class="check-icon">[ ]</span>
+                <span class="check-text">
+                  <strong>5. Evaluar el riesgo</strong> de un sistema y proponer
+                  controles concretos para reducirlo.
+                </span>
+              </li>
+            </ul>
+            <p class="check-prog" id="check-prog">0 / 5 revisadas</p>
+          </section>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             BLOQUE 2 — PROYECTOS QUE REALIZARÍAN
+        ═══════════════════════════════════════════════ -->
+        <section>
+          <section>
+            <h2>Proyectos que<br />realizarían</h2>
+          </section>
+
+          <section>
+            <img
+              src="./assets/tec2.webp"
+              alt="Proyectos de ciberseguridad"
+              style="width: 30%"
+            />
+            <p style="font-size: 0.68em; margin-top: 0.5em">
+              <!-- TODO: dato UVG — sustituir por proyectos reales de los
+              cursos de la especialidad -->
+              Estos son ejemplos representativos del tipo de proyectos que se
+              trabajan en una especialidad de ciberseguridad.
+            </p>
+          </section>
+
+          <section>
+            <h3>Ejemplos de proyectos</h3>
+            <div class="card-grid">
+              <div class="info-card">
+                <strong>Laboratorio de pentesting</strong>
+                Montar un entorno controlado y explotar vulnerabilidades reales,
+                con permiso.
+              </div>
+              <div class="info-card">
+                <strong>CTF (Capture The Flag)</strong>
+                Competencias de retos de hacking ético contra el reloj, solo o
+                en equipo.
+              </div>
+              <div class="info-card">
+                <strong>SIEM / SOC casero</strong>
+                Armar un centro de monitoreo que detecte alertas y ataques en
+                tiempo real.
+              </div>
+              <div class="info-card">
+                <strong>App segura desde el diseño</strong>
+                Desarrollar una aplicación aplicando seguridad desde la primera
+                línea de código.
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h3>Ejemplos de proyectos</h3>
+            <div class="card-grid">
+              <div class="info-card">
+                <strong>Forense de un incidente simulado</strong>
+                Analizar logs y evidencia digital para reconstruir un ataque
+                ficticio.
+              </div>
+              <div class="info-card">
+                <strong>Red Team vs Blue Team</strong>
+                Un equipo ataca, otro defiende: la misma dinámica que se usa en
+                la industria.
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h3>Red Team vs Blue Team</h3>
+            <div class="resp-card">
+              <strong>Red Team</strong> — ataca de forma autorizada, simula a un
+              adversario real para encontrar huecos. <br /><br />
+              <strong>Blue Team</strong> — defiende, monitorea alertas y
+              contiene el ataque mientras ocurre. <br /><br />
+              <em
+                >En estos ejercicios, ustedes practican ambos roles antes de
+                elegir uno como carrera.</em
+              >
+            </div>
+          </section>
+
+          <!-- QUIZ INTERACTIVO 1 -->
+          <section>
+            <h3>¿Cuál de estas es una tarea de Blue Team?</h3>
+            <div class="quiz-wrap" id="quiz1">
+              <div class="quiz-options">
+                <button
+                  class="quiz-btn"
+                  onclick="responderQuiz(this, 'a', '1')"
+                >
+                  a) Explotar una vulnerabilidad para entrar a un sistema
+                </button>
+                <button
+                  class="quiz-btn"
+                  onclick="responderQuiz(this, 'b', '1')"
+                >
+                  b) Monitorear alertas y contener un ataque en curso
+                </button>
+                <button
+                  class="quiz-btn"
+                  onclick="responderQuiz(this, 'c', '1')"
+                >
+                  c) Diseñar un correo de phishing para una prueba
+                </button>
+                <button
+                  class="quiz-btn"
+                  onclick="responderQuiz(this, 'd', '1')"
+                >
+                  d) Buscar el precio de un exploit en el mercado negro
+                </button>
+              </div>
+              <p class="quiz-feedback" id="fb1"></p>
+            </div>
+          </section>
+
+          <!-- QUIZ INTERACTIVO 2 -->
+          <section>
+            <h3>¿Qué es un CTF?</h3>
+            <div class="quiz-wrap" id="quiz2">
+              <div class="quiz-options">
+                <button
+                  class="quiz-btn"
+                  onclick="responderQuiz(this, 'a', '2')"
+                >
+                  a) Una competencia de retos de hacking ético en escenarios
+                  controlados
+                </button>
+                <button
+                  class="quiz-btn"
+                  onclick="responderQuiz(this, 'b', '2')"
+                >
+                  b) Un torneo de videojuegos
+                </button>
+                <button
+                  class="quiz-btn"
+                  onclick="responderQuiz(this, 'c', '2')"
+                >
+                  c) Un tipo de malware
+                </button>
+                <button
+                  class="quiz-btn"
+                  onclick="responderQuiz(this, 'd', '2')"
+                >
+                  d) Un protocolo de red
+                </button>
+              </div>
+              <p class="quiz-feedback" id="fb2"></p>
+            </div>
+          </section>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             BLOQUE 3 — EN QUÉ PODRÍAS TRABAJAR
+        ═══════════════════════════════════════════════ -->
+        <section>
+          <section>
+            <h2>En qué podrían<br />trabajar</h2>
+          </section>
+
+          <section>
+            <img
+              src="./assets/tec5.jpg"
+              alt="Roles de ciberseguridad"
+              style="width: 32%"
+            />
+            <p style="font-size: 0.68em; margin-top: 0.5em">
+              <!-- TODO: dato UVG — validar roles con egresados reales de la
+              especialidad si se tienen casos concretos -->
+              Sacar esta especialidad abre varias rutas de carrera distintas, no
+              solo una.
+            </p>
+          </section>
+
+          <section>
+            <h3>Algunos roles posibles</h3>
+            <div class="card-grid">
+              <div class="info-card">
+                <strong>Analista SOC</strong>
+                Monitorea alertas de seguridad y responde a incidentes en tiempo
+                real.
+              </div>
+              <div class="info-card">
+                <strong>Pentester / Ethical Hacker</strong>
+                Ataca sistemas de forma autorizada para encontrar
+                vulnerabilidades.
+              </div>
+              <div class="info-card">
+                <strong>Ingeniero de Seguridad</strong>
+                Diseña e implementa controles y arquitecturas seguras.
+              </div>
+              <div class="info-card">
+                <strong>Analista Forense Digital</strong>
+                Investiga incidentes: qué pasó, cómo y quién fue.
+              </div>
+              <div class="info-card">
+                <strong>Consultor GRC / Cumplimiento</strong>
+                Ayuda a organizaciones a cumplir normas y gestionar riesgo.
+              </div>
+              <div class="info-card">
+                <strong>AppSec Engineer / DevSecOps</strong>
+                Integra seguridad dentro del ciclo de desarrollo de software.
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h3>¿Quién contrata estos perfiles?</h3>
+            <p
+              style="
+                font-size: 0.68em;
+                margin-top: 0.5em;
+                text-align: left;
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+                line-height: 1.9;
+              "
+            >
+              <!-- TODO: dato UVG — reemplazar por empresas/sectores locales
+              que efectivamente contratan egresados de UVG -->
+              Bancos y fintech · Telecomunicaciones · Gobierno · Consultoras de
+              seguridad · Prácticamente cualquier empresa con presencia digital
+            </p>
+          </section>
+
+          <section>
+            <h3>Certificaciones que ayudan</h3>
+            <p style="font-size: 0.62em; margin-bottom: 0.4em">
+              <!-- TODO: dato UVG — indicar cuáles certificaciones prepara o
+              recomienda la especialidad específicamente -->
+              No son obligatorias para empezar, pero suman mucho en el
+              currículum:
+            </p>
+            <ul
+              style="
+                font-size: 0.65em;
+                text-align: left;
+                max-width: 560px;
+                margin: 0 auto;
+                line-height: 1.9;
+              "
+            >
+              <li>
+                <strong>CompTIA Security+</strong> — base general, buena para
+                entrar
+              </li>
+              <li>
+                <strong>CEH (Certified Ethical Hacker)</strong> — enfoque en
+                pentesting
+              </li>
+              <li>
+                <strong>OSCP</strong> — muy respetada en el mundo de pentesting
+              </li>
+              <li>
+                <strong>CISSP</strong> — para roles senior de gestión de
+                seguridad
+              </li>
+            </ul>
+          </section>
+
+          <!-- DILEMA INTERACTIVO -->
+          <section>
+            <h3>Dilema ético: ustedes deciden</h3>
+            <p style="font-size: 0.6em">
+              Son pentesters en una prueba autorizada. Encuentran una
+              vulnerabilidad crítica que
+              <strong>no estaba en el alcance</strong>
+              del contrato, y el cliente ya pagó y cerró el proyecto. ¿Qué
+              hacen?
+            </p>
+            <div class="dilema-opciones" id="dilema">
+              <button class="dilema-btn" onclick="elegirDilema(this, 'a')">
+                <strong>A: Reportarla de inmediato</strong><br />
+                Aunque esté fuera de alcance, notificar al cliente por el riesgo
+                que representa.
+              </button>
+              <button class="dilema-btn" onclick="elegirDilema(this, 'b')">
+                <strong>B: Ignorarla</strong><br />
+                No era parte del contrato, así que no es su responsabilidad.
+              </button>
+              <button class="dilema-btn" onclick="elegirDilema(this, 'c')">
+                <strong>C: Guardarla para después</strong><br />
+                Esperar a que los contraten de nuevo para mencionarla.
+              </button>
+              <button class="dilema-btn" onclick="elegirDilema(this, 'd')">
+                <strong>D: Venderla a un tercero</strong><br />
+                Si nadie más la va a reportar, alguien más podría pagar por
+                ella.
+              </button>
+            </div>
+            <p class="dilema-feedback" id="dilema-fb"></p>
+          </section>
+
+          <section>
+            <p style="font-size: 0.8em">
+              El código de ética profesional es tan importante como las
+              habilidades técnicas.
+            </p>
+            <p style="font-size: 0.68em; margin-top: 0.6em">
+              Nadie te va a contratar solo por saber "hackear". Te van a
+              contratar porque
+              <strong>confían en que vas a usar ese poder bien.</strong>
+            </p>
+          </section>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             ACTIVIDAD GRUPAL — TIMER
+        ═══════════════════════════════════════════════ -->
+        <section>
+          <h4>Tiempo para sus equipos</h4>
+          <div class="timer-display" id="timer">08:00</div>
+          <div class="timer-bar-wrap">
+            <div
+              class="timer-bar"
+              id="timer-bar"
+              style="transform: scaleX(1)"
+            ></div>
+          </div>
+          <div class="timer-controls">
+            <button
+              class="timer-btn"
+              id="btn-start"
+              onclick="timerControl('start')"
+            >
+              Iniciar
+            </button>
+            <button
+              class="timer-btn"
+              id="btn-pause"
+              onclick="timerControl('pause')"
+              disabled
+            >
+              Pausar
+            </button>
+            <button class="timer-btn" onclick="timerControl('reset')">
+              Reiniciar
+            </button>
+          </div>
+          <ul class="timer-task">
+            <li>
+              En equipos, elijan una app que usen todos los días (WhatsApp,
+              Instagram, banca móvil, etc.)
+            </li>
+            <li>
+              Identifiquen al menos 3 riesgos de seguridad posibles en esa app
+            </li>
+            <li>
+              Para cada riesgo, digan qué rol de ciberseguridad se encargaría de
+              solucionarlo
+            </li>
+          </ul>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             CIERRE Y Q&A
+        ═══════════════════════════════════════════════ -->
+        <section>
+          <section>
+            <h2>¿Preguntas?</h2>
+            <p
+              style="
+                font-size: 0.68em;
+                margin-top: 0.4em;
+                color: rgba(255, 255, 255, 0.8);
+              "
+            >
+              No hay preguntas tontas.
+            </p>
+          </section>
+
+          <section>
+            <h3>Para llevarse a casa</h3>
+            <ul style="font-size: 0.7em; line-height: 1.9">
+              <li>
+                Ciberseguridad es una <strong>especialidad concreta</strong>
+                dentro de Ingeniería en Informática y Sistemas, no solo un tema
+                de moda
+              </li>
+              <li>
+                Se aprende con <strong>proyectos prácticos</strong>: labs de
+                pentesting, CTFs, SOC, forense
+              </li>
+              <li>
+                Abre <strong>varias rutas de carrera</strong>: SOC, pentesting,
+                ingeniería de seguridad, forense, GRC, AppSec
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <img
+              src="./assets/tec9.jpg"
+              alt="Futuro en ciberseguridad"
+              style="width: 28%"
+            />
+            <p
+              style="
+                font-size: 0.7em;
+                margin-top: 0.6em;
+                max-width: 640px;
+                margin-left: auto;
+                margin-right: auto;
+              "
+            >
+              La demanda de gente formada en ciberseguridad sigue creciendo.
+              Empezar a explorarla desde ahora es una ventaja real.
+            </p>
+          </section>
+
+          <section>
+            <h2>¡Gracias!</h2>
+            <p style="font-size: 0.6em">
+              <!-- TODO: dato UVG — nombre del presentador -->
+              Ingeniería en Informática y Sistemas · UVG
+            </p>
+          </section>
+        </section>
+      </div>
+      <!-- /slides -->
+
+      <div class="footer">
+        <img
+          src="logo.webp"
+          alt="Logo Universidad del Valle de Guatemala"
+          style="height: 50px"
+        />
+      </div>
+    </div>
+    <!-- /reveal -->
+
+    <script src="reveal/reveal.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        controls: true,
+        progress: true,
+        center: true,
+        transition: "slide",
+        backgroundTransition: "fade",
+      });
+
+      /* DILEMA ETICO */
+      var dilemaFeedback = {
+        a: "RECOMENDADO: Notificar el hallazgo, aunque esté fuera de alcance. La ética profesional pesa más que los límites de un contrato ya cerrado.",
+        b: "Riesgoso: dejar una vulnerabilidad crítica sin reportar puede tener consecuencias reales para usuarios del sistema, aunque no sea 'su responsabilidad' contractual.",
+        c: "NO RECOMENDADO: retrasar el reporte deja el sistema expuesto mientras tanto. El riesgo no espera al próximo contrato.",
+        d: "NO ACEPTABLE: vender una vulnerabilidad encontrada durante una prueba autorizada es ilegal y rompe por completo la confianza del cliente.",
+      };
+      function elegirDilema(el, opcion) {
+        document.querySelectorAll(".dilema-btn").forEach(function (c) {
+          c.classList.remove("selected");
+        });
+        el.classList.add("selected");
+        document.getElementById("dilema-fb").textContent =
+          dilemaFeedback[opcion];
+      }
+
+      /* QUIZ */
+      var quizAnswers = { 1: "b", 2: "a" };
+      var quizFeedback = {
+        1: {
+          a: "INCORRECTO: eso es una tarea de Red Team (ataque autorizado).",
+          b: "CORRECTO: monitorear y contener ataques en curso es trabajo del Blue Team.",
+          c: "INCORRECTO: diseñar un ataque de phishing es una tarea de Red Team / ingeniería social ofensiva.",
+          d: "INCORRECTO: eso describe una actividad ilegal, no una tarea de Blue Team.",
+        },
+        2: {
+          a: "CORRECTO: un CTF (Capture The Flag) es una competencia de retos de hacking ético en un entorno controlado.",
+          b: "INCORRECTO: no es un torneo de videojuegos, aunque también sea competitivo.",
+          c: "INCORRECTO: un CTF no es un tipo de malware.",
+          d: "INCORRECTO: un CTF no es un protocolo de red.",
+        },
+      };
+      function responderQuiz(btn, opcion, qid) {
+        var wrap = document.getElementById("quiz" + qid);
+        wrap.querySelectorAll(".quiz-btn").forEach(function (b) {
+          b.disabled = true;
+          b.classList.remove("correct", "wrong");
+        });
+        btn.classList.add(opcion === quizAnswers[qid] ? "correct" : "wrong");
+        wrap
+          .querySelector(".quiz-btn[onclick*=\"'" + quizAnswers[qid] + "'\"]")
+          .classList.add("correct");
+        document.getElementById("fb" + qid).textContent =
+          quizFeedback[qid][opcion];
+      }
+
+      /* CHECKLIST */
+      function toggleCheck(li) {
+        li.classList.toggle("done");
+        var icon = li.querySelector(".check-icon");
+        icon.textContent = li.classList.contains("done") ? "[x]" : "[ ]";
+        var done = document.querySelectorAll("#checklist li.done").length;
+        document.getElementById("check-prog").textContent =
+          done + " / 5 revisadas";
+      }
+
+      /* TIMER */
+      var TIMER_TOTAL = 8 * 60;
+      var timerRemaining = TIMER_TOTAL;
+      var timerInterval = null;
+      var timerRunning = false;
+
+      function updateTimerDisplay() {
+        var m = Math.floor(timerRemaining / 60);
+        var s = timerRemaining % 60;
+        var display = document.getElementById("timer");
+        var bar = document.getElementById("timer-bar");
+        if (!display) return;
+        display.textContent =
+          (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+        display.className =
+          "timer-display" + (timerRemaining <= 60 ? " warning" : "");
+        bar.style.transform = "scaleX(" + timerRemaining / TIMER_TOTAL + ")";
+      }
+
+      function timerControl(action) {
+        if (action === "start" && !timerRunning) {
+          timerRunning = true;
+          document.getElementById("btn-start").disabled = true;
+          document.getElementById("btn-pause").disabled = false;
+          timerInterval = setInterval(function () {
+            if (timerRemaining > 0) {
+              timerRemaining--;
+              updateTimerDisplay();
+            } else {
+              clearInterval(timerInterval);
+              timerRunning = false;
+              document.getElementById("timer").textContent = "Tiempo";
+            }
+          }, 1000);
+        } else if (action === "pause" && timerRunning) {
+          clearInterval(timerInterval);
+          timerRunning = false;
+          document.getElementById("btn-start").disabled = false;
+          document.getElementById("btn-pause").disabled = true;
+        } else if (action === "reset") {
+          clearInterval(timerInterval);
+          timerRunning = false;
+          timerRemaining = TIMER_TOTAL;
+          updateTimerDisplay();
+          document.getElementById("btn-start").disabled = false;
+          document.getElementById("btn-pause").disabled = true;
+        }
+      }
+
+      /* ══════════════════════════════════════════════════
+         PARTÍCULAS DE FONDO — portada
+      ══════════════════════════════════════════════════ */
+      (function () {
+        var canvas = document.getElementById("particles-canvas");
+        var ctx = canvas.getContext("2d");
+        var particles = [];
+        var N = 50;
+        var rafId = null;
+        var running = false;
+
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
+
+        for (var i = 0; i < N; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 2.0 + 0.5,
+            dx: (Math.random() - 0.5) * 0.3,
+            dy: -(Math.random() * 0.5 + 0.12),
+            alpha: Math.random() * 0.3 + 0.07,
+          });
+        }
+
+        function draw() {
+          if (!running) return;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          particles.forEach(function (p) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(168, 240, 200, " + p.alpha + ")";
+            ctx.fill();
+            p.x += p.dx;
+            p.y += p.dy;
+            if (p.y < -8) {
+              p.y = canvas.height + 8;
+              p.x = Math.random() * canvas.width;
+            }
+            if (p.x < -8 || p.x > canvas.width + 8) {
+              p.x = p.x < 0 ? canvas.width + 4 : -4;
+            }
+          });
+          rafId = requestAnimationFrame(draw);
+        }
+
+        function startParticles() {
+          if (running) return;
+          running = true;
+          canvas.classList.add("active");
+          draw();
+        }
+
+        function stopParticles() {
+          running = false;
+          canvas.classList.remove("active");
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        Reveal.on("slidechanged", function (event) {
+          var state = event.currentSlide
+            ? event.currentSlide.dataset.state || ""
+            : "";
+          if (state === "cover") {
+            startParticles();
+          } else {
+            stopParticles();
+          }
+        });
+
+        Reveal.on("ready", function (event) {
+          var state = event.currentSlide
+            ? event.currentSlide.dataset.state || ""
+            : "";
+          if (state === "cover") startParticles();
+        });
+      })();
+
+      /* ══════════════════════════════════════════════════
+         COUNT-UP — stat cards al entrar al slide de stats
+         Lee data-target y data-suffix de cada .stat-num, así
+         que se puede reutilizar en cualquier slide con
+         data-state="stats-slide" sin tocar el script.
+      ══════════════════════════════════════════════════ */
+      (function () {
+        var countedSlides = {};
+
+        function countUp(el, target, duration, suffix) {
+          var start = 0;
+          var step = Math.max(1, Math.ceil(duration / Math.max(target, 1)));
+          var interval = setInterval(function () {
+            start += 1;
+            el.textContent = start + suffix;
+            if (start >= target) {
+              el.textContent = target + suffix;
+              clearInterval(interval);
+            }
+          }, step);
+        }
+
+        Reveal.on("slidechanged", function (event) {
+          var slide = event.currentSlide;
+          var state = slide ? slide.dataset.state || "" : "";
+          if (state !== "stats-slide" || countedSlides[slide]) return;
+          countedSlides[slide] = true;
+          var nums = slide.querySelectorAll(".stat-card .stat-num");
+          nums.forEach(function (numEl) {
+            numEl.closest(".stat-card").classList.add("counted");
+            var target = parseInt(numEl.getAttribute("data-target"), 10) || 0;
+            var suffix = numEl.getAttribute("data-suffix") || "";
+            countUp(numEl, target, 900, suffix);
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
